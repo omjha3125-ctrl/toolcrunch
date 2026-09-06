@@ -66,7 +66,15 @@ function showError(container,msg){container.insertAdjacentHTML('beforeend',`<div
 function showLoading(container){container.innerHTML='<div class="loading"><div class="spinner"></div>Loading tool...</div>';}
 function clearNode(n){while(n.firstChild)n.removeChild(n.firstChild)}
 function privacy(){return '<div class="privacy-note"><i class="ti ti-lock" aria-hidden="true"></i>Files never leave your device — all processing runs in your browser</div>'}
-function ad(id){return `<!-- ADSENSE ${id}: Replace with your AdSense ins tag. Data-ad-format: auto --><div class="ad-slot" id="ad-${id.toLowerCase()}"></div>`}
+/*
+function ad(id){
+  return `<!-- ADSENSE ${id}: Replace with your AdSense ins tag. Data-ad-format: auto --><div class="ad-slot" id="ad-${id.toLowerCase()}"></div>`
+}
+*/
+
+function ad(id){
+  return '';
+}
 function makeDropZone(accept,onFiles,multiple=true,title='Drop files here',sub=null){const dz=document.createElement('div');dz.className='drop-zone';dz.innerHTML=`<i class="ti ti-upload drop-zone-icon" aria-hidden="true"></i><div class="drop-zone-title">${escapeHtml(title)}</div><div class="drop-zone-sub">${escapeHtml(sub||accept+' — up to 50 MB each')}</div><label class="drop-zone-btn"><i class="ti ti-folder-open" aria-hidden="true" style="font-size:14px"></i>Browse files<input type="file" hidden accept="${accept}" ${multiple?'multiple':''}></label>`;['dragenter','dragover','dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();e.stopPropagation();}));['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,()=>dz.classList.add('drag-over')));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,()=>dz.classList.remove('drag-over')));dz.addEventListener('drop',e=>onFiles(e.dataTransfer.files));$('input',dz).addEventListener('change',e=>onFiles(e.target.files));return dz;}
 function pillGroup(values,current,onChange){const wrap=document.createElement('div');wrap.className='pill-group';values.forEach(v=>{const b=document.createElement('button');b.type='button';b.className='pill-opt'+(v===current?' active':'');b.textContent=v;b.addEventListener('click',()=>{$$('.pill-opt',wrap).forEach(x=>x.classList.remove('active'));b.classList.add('active');onChange(v);});wrap.appendChild(b);});return wrap;}
 function statGrid(stats){return `<div class="calc-result"><div class="calc-result-grid">${stats.map(s=>`<div class="calc-stat"><div class="calc-stat-label">${escapeHtml(s.label)}</div><div class="calc-stat-value ${s.cls||''}">${s.value}</div></div>`).join('')}</div></div>`}
